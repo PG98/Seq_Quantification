@@ -7,7 +7,7 @@
 * fastq-dump
 
   * ```bash
-    fastq-dump -O new3_unzip --split-files SRR1294493 SRR1294495 &
+    fastq-dump -O new3_unzip --split-files SRR1294493 &
     ```
 
 * fastqc
@@ -16,7 +16,7 @@
     fastqc -o ./FastQC/fastqc_result/ -t 1 ./FastQC/fastqc_raw_data/*.fastq
     ```
 
-* Trim
+* Trim (not in bulk)
 
   * ```bash
     AdapterRemoval --file1 reads_1.fq --file2 reads_2.fq --basename output_paired --trimns --trimqualities --collapse
