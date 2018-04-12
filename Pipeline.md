@@ -37,14 +37,17 @@
     http://blog.sina.com.cn/s/blog_17a1407140102xp4j.html
 
     ```bash
-    STAR --runThreadN 20 --genomeDir /home/sjchen/indices/STAR --readFilesIn /data/hca/Patel_fastq/new3_unzip/SRR1295114_1.fastq /data/hca/Patel_fastq/new3_unzip/SRR1295114_2.fastq --outFileNamePrefix /home/sjchen/results/STAR/SRR1295114/ --outSAMtype BAM SortedByCoordinate
+    STAR --runThreadN 20 --genomeDir /home/sjchen/indices/STAR/
+    --readFilesIn /data/hca/Patel_fastq/new3_unzip/SRR1295114_1.fastq /data/hca/Patel_fastq/new3_unzip/SRR1295114_2.fastq --outFileNamePrefix /home/sjchen/results/STAR/SRR1295114/ --outSAMtype BAM SortedByCoordinate  --outSAMstrandField intronMotif
     ```
 
-* Cufflinks
+    * 加上 strandField参数后文件里会有特定的 attribute, which is vital for cufflinks
 
-  * cufflink
+* Cufflinks (version 2.2.1)
 
-    samtobam
+  * cufflinks
+
+    samtobam (optional, v2.2.1 supports .bam format)
 
     http://cole-trapnell-lab.github.io/cufflinks/manual/
 
@@ -58,6 +61,64 @@
     cufflinks -p 8 -G /home/sjchen/hg19_index/ref_smartseq/hg19.gtf  -o /home/sjchen/results/cuff /home/sjchen/results/STAR/Aligned.out.sam >/home/sjchen/results/cufflinks.log
     ```
 
-    ​
+    --library-type fr-secondstrand
 
 http://blog.sciencenet.cn/blog-1113671-1038659.html
+
+* Cuffmerge
+
+
+* Cuffquant
+
+  ```shell
+  cuffquant -p 8 --no-update-check -o quant /home/sjchen/results/cuffmerge/merged.gtf /home/sjchen/results/STARtoCuff/SRR1294494/Aligned.sortedByCoord.out.bam
+  ```
+
+* Cuffnorm
+
+  使用cuffnorm进行基因和转录本表达水平的标准化处理.
+
+  **参数中最后的cxb不是 comma-separated 而是 space; bam/sam 也接受，但所有文件类别须一致**
+
+  ```shell
+  cuffnorm -o cuffnorm_out -p 8 -L SRR1295210,SRR1295211... /home/songshaoming/data/HCA/genome.gtf /home/songshaoming/data/HCA/SRR1295210_quant/abundances.cxb,/home/songshaoming/data/HCA/SRR1295211_quant/abundances.cxb,...
+
+  ```
+
+* Plot using R or py 
+
+
+
+
+
+
+
+
+### Apr.7th 11pm.
+
+**sjob id: 176723**
+
+**DIR :**
+
+1. STAR:  /home/sjchen/CFY/tips/STAR/
+
+   1. **STARtoCuff.sh**
+   2. batchSTAR.py
+
+2. Cufflinks: /home/sjchen/CFY/tips/cufflinks/ cufflinks.py
+
+   STAR/Cuff 各自日志和脚本在同一目录
+
+
+##### 生成：
+
+* STAR  /home/sjchen/results/STARtoCuff
+* Cuff  /home/sjchen/results/cuff
+
+
+
+
+### April 8th
+
+* Cuffmerge：Warning ：couldn't find fasta record for 'xxx.xx'!
+  * possible solution: find the Genome which STAR referred to during alignment, and replace the reference in the cuffmerge command.

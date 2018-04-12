@@ -1,5 +1,5 @@
 # Cheatsheet
-
+## Linux 
 * 显示上G目录大小
     - du -h --max-depth=1 |grep 'G' |sort
 * 显示当前目录和文件大小(a: all files; h: human-being; s:summarize) )
@@ -30,6 +30,14 @@
 * awk (another solution to text files besides sed)
     - awk '!/7/' yourFile # 输出不带有'7'的行
     - awk 'BEGIN {OFS = "\n"} {header = $0 ; getline seq ; getline qheader ; getline qseq ; if (length(seq) != length(qseq)) {print header, seq, qheader, qseq, NR-3}}' yourFastq.fastq # 一种筛选方式
-* 输出日志
+* 重定向带有标准错误和标准输出的日志
     - ... > xxxx.log 2>&1
+
+## Pipeline
+
+
+![能够继承 Tophat/STAR/HISAT alignment的 cufflink教程](https://github.com/griffithlab/rnaseq_tutorial_v1/wiki/Differential-Expression)
+
+![从QC到可视化](https://github.com/griffithlab/rnaseq_tutorial_v1/wiki/Differential-Expression)
+
 
