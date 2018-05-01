@@ -90,35 +90,22 @@ http://blog.sciencenet.cn/blog-1113671-1038659.html
 
 
 
+## Read counts
+
+## HT-seq
+
+```bash
+htseq-count -f bam /data/hca/tumor/SRR522108./Aligned.sortedByCoord.out.bam /home/sjchen/hg19_index/ref_smartseq/hg19.gtf > /data/hca/tumor/SRR522108./SRR522108.count
+```
 
 
 
+## Kallisto
 
-### Apr.7th 11pm.
+(后续处理的R包： sleuth)
 
-**sjob id: 176723**
+```bash
+# indexing
+kallisto index -i transcripts.idx Homo_sapiens.GRCh38.cdna.all.fa.gz
+```
 
-**DIR :**
-
-1. STAR:  /home/sjchen/CFY/tips/STAR/
-
-   1. **STARtoCuff.sh**
-   2. batchSTAR.py
-
-2. Cufflinks: /home/sjchen/CFY/tips/cufflinks/ cufflinks.py
-
-   STAR/Cuff 各自日志和脚本在同一目录
-
-
-##### 生成：
-
-* STAR  /home/sjchen/results/STARtoCuff
-* Cuff  /home/sjchen/results/cuff
-
-
-
-
-### April 8th
-
-* Cuffmerge：Warning ：couldn't find fasta record for 'xxx.xx'!
-  * possible solution: find the Genome which STAR referred to during alignment, and replace the reference in the cuffmerge command.
