@@ -90,6 +90,31 @@ http://blog.sciencenet.cn/blog-1113671-1038659.html
 
 
 
+# TPM
+
+## Salmon
+
+[官网](http://combine-lab.github.io/salmon/)
+
+[Documentation](http://salmon.readthedocs.io/en/latest/salmon.html#using-salmon)
+
+### Build index
+
+```bash
+salmon index -t /home/sjchen/hg19_index/kallisto/Homo_sapiens.GRCh38.cdna.all.fa.gz -i Homo_Sapiens_Salmon_index > indexGen.log 2>&1
+```
+
+### Quantify
+
+```bash
+#salmon quant -i transcripts_index -l <LIBTYPE> -r reads.fq -o transcripts_quant
+salmon quant -i /home/sjchen/hg19_index/salmon/Homo_Sapiens_Salmon_index -l A -r reads.fq -o transcripts_quant
+```
+
+
+
+
+
 ## Read counts
 
 ## HT-seq
@@ -104,8 +129,73 @@ htseq-count -f bam /data/hca/tumor/SRR522108./Aligned.sortedByCoord.out.bam /hom
 
 (后续处理的R包： sleuth)
 
+[官网](https://pachterlab.github.io/kallisto/)
+
+[参考资料1](https://wenku.baidu.com/view/21c4991d76232f60ddccda38376baf1ffc4fe3a8.html)
+
 ```bash
 # indexing
 kallisto index -i transcripts.idx Homo_sapiens.GRCh38.cdna.all.fa.gz
 ```
 
+
+
+## RSEM
+
+[官网](https://github.com/deweylab/RSEM)
+
+- 非链特异性 --strandedness none
+
+
+
+
+
+# RPKM
+
+## NURD
+
+
+
+
+
+
+
+## Hisat + Stringtie
+
+* Reference
+  * hisat 使用：
+    * http://blog.sciencenet.cn/home.php?mod=space&uid=1469385&do=blog&id=1022768
+    * http://www.bio-info-trainee.com/731.html
+    * http://www.chenlianfu.com/?p=2284
+
+
+* 下载官网索引 (optional)
+
+```bash
+axel -n 10 ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/data/hg38.tar.gz
+```
+
+* Indexing
+
+```bash
+# The two python scripts should be availatble when hisat is installed in the current anaconda environment.
+# Before indexing, convert .gtf file to what hisat2-build could handle.
+hisat2_extract_exons.py ~/hg19_index/ref_smartseq/hg19.gtf > genome.exon
+hisat2_extract_splice_sites.py ~/hg19_index/ref_smartseq/hg19.gtf > genome.ss &
+```
+
+​	建立索引：
+
+```bash
+hisat2-build -p 10 genome.fa --snp genome.snp --ss genome.ss --exon genome.exon genome_snp_tran
+```
+
+* Alignment
+
+```bash
+hisat -x  my_hisat_index -U ../reads/reads_1.fq  -S reads1.sam
+```
+
+
+
+* quant
