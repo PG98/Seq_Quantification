@@ -147,6 +147,14 @@ salmon quant -i /home/sjchen/hg19_index/salmon/Homo_Sapiens_Salmon_index -l A -r
 
 ## HT-seq
 
+Note: the ht-seq python package includes bam reading and writing functions
+
+[ht-seq overview](http://htseq.readthedocs.io/en/release_0.10.0/refoverview.html#refoverview)
+
+
+
+[ht-seq count](http://htseq.readthedocs.io/en/release_0.10.0/count.html)
+
 ```bash
 #  (Using STAR alignment results)
 htseq-count -f bam /data/hca/tumor/SRR522108./Aligned.sortedByCoord.out.bam /home/sjchen/hg19_index/ref_smartseq/hg19.gtf > /data/hca/tumor/SRR522108./SRR522108.count
@@ -173,6 +181,16 @@ kallisto index -i transcripts.idx Homo_sapiens.GRCh38.cdna.all.fa.gz
 
 ```bash
 kallisto quant -t 8 -i /home/sjchen/hg19_index/kallisto/transcripts.idx -o <outputPath> -b 100 --single -l 180 -s 20 xxx.fastq
+```
+
+
+
+## Sailfish
+
+### Indexing
+
+```bash
+sailfish index -t <ref_transcripts> -o <out_dir> -k <kmer_len>
 ```
 
 
